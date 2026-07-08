@@ -106,40 +106,57 @@ Deletes a task.
 
 ### Running the Application
 
-1. **Build the project:**
+1. **Clean and build the project:**
    ```bash
+   dotnet clean
    dotnet build
    ```
 
-2. **Run the application:**
+2. **Run the application in Development mode:**
    ```bash
-   dotnet run
+   dotnet run --environment Development
+   ```
+   
+   Or set the environment variable explicitly:
+   ```bash
+   ASPNETCORE_ENVIRONMENT=Development dotnet run
    ```
 
 3. **Access Swagger UI:**
-   Open your browser and navigate to `https://localhost:5001/swagger`
+   - **Local development**: Open `http://localhost:5000/swagger`
+   - **GitHub Codespace**: The forwarded port URL will be displayed in the Ports panel
+   - Once running, navigate to `/swagger/index.html`
 
-### Example Usage
+4. **Test the API:**
+   Use the Swagger UI to test all endpoints interactively, or use curl commands below.
+
+### Example Usage with curl
 
 ```bash
 # Create a task
-curl -X POST https://localhost:5001/api/tasks \
+curl -X POST http://localhost:5000/api/tasks \
   -H "Content-Type: application/json" \
   -d '{"title":"Buy groceries","description":"Milk, eggs, bread"}'
 
 # Get all tasks
-curl https://localhost:5001/api/tasks
+curl http://localhost:5000/api/tasks
 
 # Get pending tasks
-curl https://localhost:5001/api/tasks/filter/pending
+curl http://localhost:5000/api/tasks/filter/pending
+
+# Get completed tasks
+curl http://localhost:5000/api/tasks/filter/completed
 
 # Update a task (mark as completed)
-curl -X PUT https://localhost:5001/api/tasks/1 \
+curl -X PUT http://localhost:5000/api/tasks/1 \
   -H "Content-Type: application/json" \
   -d '{"isCompleted":true}'
 
+# Get a specific task
+curl http://localhost:5000/api/tasks/1
+
 # Delete a task
-curl -X DELETE https://localhost:5001/api/tasks/1
+curl -X DELETE http://localhost:5000/api/tasks/1
 ```
 
 ## Data Model
@@ -176,6 +193,20 @@ public class Task
 ### Async/Await
 - All service methods are async
 - Prepares foundation for future async operations (database calls, external APIs, etc.)
+
+## Troubleshooting
+
+### Getting 404 errors on Swagger?
+Make sure you're running in **Development** mode:
+```bash
+dotnet run --environment Development
+```
+
+### HTTPS redirect issues?
+In Development mode, HTTPS redirects are disabled. Use `http://` URLs:
+```
+http://localhost:5000/swagger
+```
 
 ## Future Enhancements
 
