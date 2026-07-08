@@ -1,0 +1,21 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Dependencies
+.nuget/
+packages/
+
+# Misc
+.DS_Store
+.env
+*.log
